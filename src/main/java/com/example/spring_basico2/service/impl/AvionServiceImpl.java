@@ -1,11 +1,11 @@
 package com.example.spring_basico2.service.impl;
 
+import com.example.spring_basico2.dto.AvionDto;
 import com.example.spring_basico2.entity.AerolineaEntity;
 import com.example.spring_basico2.entity.AvionEntity;
 import com.example.spring_basico2.repository.AerolineaRepository;
 import com.example.spring_basico2.repository.AvionRepository;
 import com.example.spring_basico2.service.AvionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,10 +21,8 @@ public class AvionServiceImpl implements AvionService {
     }
     
     @Override
-    public AvionEntity saveAvion(AvionEntity avionEntity) {
-        int idAerolinea = avionEntity.getAerolineaEntity().getId();
-        
-        // buscar si ese id existe en la tabla aerolineas
+    public AvionEntity saveAvion(AvionDto avionDto) {
+        int idAerolinea = avionDto.getIdAerolinea();
         
         Optional<AerolineaEntity> optionalAerolinea = aerolineaRepository.findById(idAerolinea);
         
@@ -32,6 +30,13 @@ public class AvionServiceImpl implements AvionService {
             return null;
         }
         
+        AvionEntity avionEntity = new AvionEntity();
+        avionEntity.setCapacidad(avionDto.getCapacidad());
+        avionEntity.setModelo(avionDto.getModelo());
+        avionEntity.setPeso(avionDto.getPeso());
+        // obteniendo la aerolinea
+        AerolineaEntity aerolineaEntity = optionalAerolinea.get();
+        avionEntity.setAerolineaEntity(aerolineaEntity);
         return avionRepository.save(avionEntity);
     }
 

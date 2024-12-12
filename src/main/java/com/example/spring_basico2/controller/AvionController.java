@@ -1,5 +1,6 @@
 package com.example.spring_basico2.controller;
 
+import com.example.spring_basico2.dto.AvionDto;
 import com.example.spring_basico2.entity.AvionEntity;
 import com.example.spring_basico2.service.AvionService;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +16,15 @@ public class AvionController {
     }
     
     @PostMapping("/save")
-    ResponseEntity<AvionEntity> saveAvion(@RequestBody AvionEntity avionEntity) {
-        AvionEntity avionEntityResponse = avionService.saveAvion(avionEntity);
+    ResponseEntity<AvionEntity> saveAvion(@RequestBody AvionDto avionDto) {
+        AvionEntity avionEntityResponse = avionService.saveAvion(avionDto);
         
         if(avionEntityResponse == null) {
             return ResponseEntity.badRequest().body(null);
         }
         return ResponseEntity.ok(avionEntityResponse);
     }
+    // data transfer object
     
     @GetMapping("/find/{id}")
     ResponseEntity<AvionEntity> findByIdAvion(@PathVariable int id) {
