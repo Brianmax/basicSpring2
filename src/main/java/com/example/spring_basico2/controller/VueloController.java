@@ -1,6 +1,7 @@
 package com.example.spring_basico2.controller;
 
 import com.example.spring_basico2.dto.VueloDto;
+import com.example.spring_basico2.dto.VueloResponse;
 import com.example.spring_basico2.entity.VueloEntity;
 import com.example.spring_basico2.service.VueloService;
 import lombok.Getter;
@@ -19,7 +20,7 @@ public class VueloController {
     }
     
     @GetMapping("/find/{id}")
-    public VueloEntity getVueloById(@PathVariable int id) {
+    public VueloResponse getVueloById(@PathVariable int id) {
         return vueloService.findByid(id);
     }
 }

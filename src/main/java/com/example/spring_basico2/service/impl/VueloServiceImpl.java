@@ -1,6 +1,7 @@
 package com.example.spring_basico2.service.impl;
 
 import com.example.spring_basico2.dto.VueloDto;
+import com.example.spring_basico2.dto.VueloResponse;
 import com.example.spring_basico2.entity.AvionEntity;
 import com.example.spring_basico2.entity.VueloEntity;
 import com.example.spring_basico2.repository.AvionRepository;
@@ -34,7 +35,19 @@ public class VueloServiceImpl implements VueloService {
     }
 
     @Override
-    public VueloEntity findByid(int id) {
-        return vueloRepository.findById(id).orElse(null);
+    public VueloResponse findByid(int id) {
+        VueloResponse vueloResponse =  new VueloResponse();
+        Optional<VueloEntity> vueloOptional = vueloRepository.findById(id);
+        
+        if(vueloOptional.isPresent()){
+            VueloEntity vueloEntity = vueloOptional.get();
+            vueloResponse.setFechaSalida(vueloEntity.getFechaSalida());
+            vueloResponse.setFechaLlegada(vueloEntity.getFechaLlegada());
+            vueloResponse.setOrigen(vueloEntity.getOrigen());
+            vueloResponse.setDestino(vueloEntity.getDestino());
+            vueloResponse.setModeloAvion(vueloEntity.getAvionEntity().getModelo());
+            vueloResponse.setAerolinea(vueloEntity.getAvionEntity().getAerolineaEntity().getNombre());
+        }
+        return vueloResponse;
     }
 }
